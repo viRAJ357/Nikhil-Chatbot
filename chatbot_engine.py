@@ -74,6 +74,34 @@ RESPONSES: Dict[str, List[str]] = {
     "sos": [
         "🚨 **Emergency!** Please call your local emergency number immediately:\n• 🇮🇳 India: **112**\n• 🇺🇸 USA: **911**\n• 🇬🇧 UK: **999**\n• EU: **112**\nStay safe!",
     ],
+    # ── Greetings & Small Talk ────────────────────────────────────────────────
+    "greeting": [
+        "Hey! 👋 I'm **Nikhil AI** — your smart assistant! How can I help you today? 😊",
+        "Hello! 😊 Great to see you! What can I do for you?",
+        "Hi there! 👋 I'm Nikhil AI. Ask me anything — banking, travel, weather, jokes and more!",
+        "Hey hey! 🤖 Nikhil AI at your service! What's on your mind?",
+    ],
+    "goodbye": [
+        "Goodbye! 👋 Take care and come back anytime! 😊",
+        "Bye bye! 🌟 It was great chatting with you. See you soon!",
+        "Take care! 👋 I'm always here when you need me. Bye!",
+    ],
+    "thank_you": [
+        "You're welcome! 😊 Happy to help anytime!",
+        "Glad I could help! 🌟 Is there anything else you need?",
+        "My pleasure! 😄 Feel free to ask me anything anytime!",
+    ],
+    "how_are_you": [
+        "I'm doing great, thanks for asking! 😊 How are YOU doing today?",
+        "Feeling fantastic as always! 🤖✨ What about you? How's your day going?",
+        "I'm always good — I'm an AI! 😄 More importantly, how can I help YOU today?",
+    ],
+    "calculator": [
+        "🧮 For calculations, try:\n• **Google** — just type the math (e.g. '2 + 2')\n• Your phone's built-in **Calculator app**\n• **Wolfram Alpha** for complex math\n\nOr just type your sum here and I'll try to help! 😊",
+    ],
+    "definition": [
+        "📖 I'd be happy to explain! Could you tell me **which word or concept** you'd like defined? 😊",
+    ],
     "yes": ["Great! How can I help you further? 😊", "Understood! What would you like to do next?"],
     "no": ["No problem! Is there anything else I can help with? 😊", "Alright! Just let me know if you need anything."],
     "repeat": ["Sure! Could you tell me what you'd like me to repeat?", "I'm happy to repeat — which part would you like to hear again?"],
@@ -468,7 +496,7 @@ class ChatbotEngine:
         else:
             pred   = self.predictor.predict(user_message)
             result = {
-                "response"    : get_response(pred["intent"], pred["confidence"], user_message),
+                "response"    : get_response(pred["intent"], pred["confidence"], user_message, self.history),
                 "intent"      : pred["intent"],
                 "confidence"  : pred["confidence"],
                 "is_confident": pred["is_confident"],
