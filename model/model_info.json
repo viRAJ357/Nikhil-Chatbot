@@ -1,0 +1,11 @@
+{
+  "model_name": "Logistic Regression (Baseline)",
+  "framework": "scikit-learn",
+  "dataset": "clinc/clinc_oos/plus",
+  "num_classes": 151,
+  "vocabulary_size": 11513,
+  "confidence_threshold": 0.4,
+  "test_accuracy": 0.8224,
+  "test_f1_macro": 0.858,
+  "random_seed": 42
+}

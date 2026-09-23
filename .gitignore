@@ -3,12 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Model files (large binary files)
-model/*.joblib
-model/*.json
+# Model files — committed intentionally so Render uses pre-trained models
+# model/*.joblib
+# model/*.json
 
 # Dataset cache
 data/
+.cache/
 ~/.cache/huggingface/
 
 # Environment
