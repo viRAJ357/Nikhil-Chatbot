@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: nikhil-chatbot
+    env: python
+    region: singapore
+    plan: free
+    buildCommand: pip install -r requirements.txt && python train.py
+    startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: PYTHONIOENCODING
+        value: utf-8
+      - key: PYTHONUNBUFFERED
+        value: "1"
