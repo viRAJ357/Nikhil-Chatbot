@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+pydantic
+scikit-learn
+nltk
+numpy
+pandas
+datasets
+huggingface-hub
+scipy
+joblib
+python-multipart
+jinja2
+aiofiles
+tqdm
+colorama
+google-generativeai

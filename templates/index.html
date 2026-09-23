@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nikhil AI — Smart Chatbot</title>
+  <meta name="description" content="Production-grade AI chatbot trained on CLINC150 dataset with 150+ intents. Built with Python, scikit-learn, and FastAPI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     TOP HEADER
+══════════════════════════════════════════════════════ -->
+<header class="header" id="mainHeader">
+  <div class="header-left">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <span class="logo-name">Nikhil <span class="logo-ai">AI</span></span>
+        <span class="logo-sub">Powered by ML</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="header-center">
+    <div class="status-badge" id="statusBadge">
+      <span class="status-dot"></span>
+      <span class="status-text">Loading…</span>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button class="btn-icon" id="btnMetrics" title="View Model Metrics">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V7h10v2z" fill="currentColor"/></svg>
+    </button>
+    <button class="btn-icon" id="btnClear" title="Clear Chat">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════════
+     MAIN LAYOUT
+══════════════════════════════════════════════════════ -->
+<main class="main-layout">
+
+  <!-- ─── LEFT SIDEBAR ─────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Model Info Card -->
+    <div class="card" id="modelCard">
+      <div class="card-header">
+        <div class="card-icon card-icon--indigo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2z" fill="currentColor"/></svg>
+        </div>
+        <h3 class="card-title">Model Info</h3>
+      </div>
+      <div class="card-body" id="modelInfoBody">
+        <div class="skeleton-lines">
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dataset Card -->
+    <div class="card" id="datasetCard">
+      <div class="card-header">
+        <div class="card-icon card-icon--violet">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.36C18 2.51 16.48 1 14.64 1c-1.5 0-2.63.89-3.34 2.17L12 5.22l-.3-1.06C11.01 1.89 9.88 1 8.36 1 6.52 1 5 2.51 5 4.64c0 .48.11.92.18 1.36H3c-1.1 0-2 .9-2 2v3c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2z" fill="currentColor"/></svg>
+        </div>
+        <h3 class="card-title">Dataset</h3>
+      </div>
+      <div class="card-body" id="datasetBody">
+        <div class="skeleton-lines">
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Card -->
+    <div class="card" id="perfCard">
+      <div class="card-header">
+        <div class="card-icon card-icon--cyan">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z" fill="currentColor"/></svg>
+        </div>
+        <h3 class="card-title">Performance</h3>
+      </div>
+      <div class="card-body" id="perfBody">
+        <div class="skeleton-lines">
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line"></div>
+          <div class="skeleton-line short"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session Stats Card -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon card-icon--emerald">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="currentColor"/></svg>
+        </div>
+        <h3 class="card-title">Session</h3>
+      </div>
+      <div class="card-body">
+        <div class="stat-row"><span class="stat-label">Messages</span><span class="stat-val" id="statTotal">0</span></div>
+        <div class="stat-row"><span class="stat-label">Confident</span><span class="stat-val green" id="statConfident">0</span></div>
+        <div class="stat-row"><span class="stat-label">Fallbacks</span><span class="stat-val amber" id="statFallbacks">0</span></div>
+      </div>
+    </div>
+
+    <!-- Quick Suggestions -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon card-icon--rose">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
+        </div>
+        <h3 class="card-title">Try These</h3>
+      </div>
+      <div class="card-body suggestions-grid" id="suggestionsGrid">
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">What's my bank balance?</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">Book a flight to Mumbai</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">Tell me a joke</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">Check weather forecast</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">How to change my PIN?</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">Best recipe for pasta</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">Track my order</button>
+        <button class="suggestion-chip" onclick="sendSuggestion(this)">How to file taxes?</button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ─── CHAT AREA ──────────────────────────────────── -->
+  <section class="chat-section">
+
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="welcome-icon">🤖</div>
+      <h1 class="welcome-title">Hello! I'm <span class="gradient-text">Nikhil AI</span></h1>
+      <p class="welcome-sub">A production-grade chatbot trained on <strong>22,500+ real conversations</strong> across 150 intent categories.</p>
+      <div class="welcome-chips">
+        <div class="welcome-chip"><span>💰</span> Banking</div>
+        <div class="welcome-chip"><span>✈️</span> Travel</div>
+        <div class="welcome-chip"><span>🌤</span> Weather</div>
+        <div class="welcome-chip"><span>🍳</span> Cooking</div>
+        <div class="welcome-chip"><span>🚗</span> Auto</div>
+        <div class="welcome-chip"><span>📅</span> Calendar</div>
+      </div>
+      <p class="welcome-hint">Type a message below or click a suggestion →</p>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="messages-container" id="messagesContainer"></div>
+
+    <!-- Typing Indicator -->
+    <div class="typing-wrapper" id="typingWrapper" style="display:none">
+      <div class="bot-avatar"><span>🤖</span></div>
+      <div class="typing-bubble">
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+        <span class="typing-dot"></span>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <div class="input-wrapper">
+        <textarea
+          id="userInput"
+          class="chat-input"
+          placeholder="Type a message… (Enter to send, Shift+Enter for new line)"
+          rows="1"
+          maxlength="1000"
+          autofocus
+        ></textarea>
+        <div class="input-actions">
+          <button class="btn-regen" id="btnRegen" title="Regenerate last response" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" fill="currentColor"/></svg>
+          </button>
+          <button class="btn-send" id="btnSend" title="Send message">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" fill="currentColor"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="input-footer">
+        <span class="char-count" id="charCount">0 / 1000</span>
+        <span class="model-badge">TF-IDF + Linear SVM · CLINC150</span>
+      </div>
+    </div>
+
+  </section>
+</main>
+
+<!-- ══════════════════════════════════════════════════════
+     METRICS MODAL
+══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="metricsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 class="modal-title">📊 Model Metrics &amp; Training Report</h2>
+      <button class="modal-close" id="btnModalClose">✕</button>
+    </div>
+    <div class="modal-body" id="metricsBody">
+      <div class="metrics-loading">Loading metrics…</div>
+    </div>
+  </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
